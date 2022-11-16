@@ -1,3 +1,5 @@
 
-print(__file__)
+import rdkit
+
+print(rdkit.__version__)
 

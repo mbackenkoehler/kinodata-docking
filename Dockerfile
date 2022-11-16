@@ -38,4 +38,4 @@ SHELL ["conda", "run", "-n", "kinoml", "/bin/bash", "-c"]
 
 RUN pip install https://github.com/openkinome/kinoml/archive/master.tar.gz
 
-ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "kinoml", "./entrypoint.sh"]
+#ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "kinoml", "./entrypoint.sh"]
