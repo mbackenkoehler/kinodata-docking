@@ -32,8 +32,10 @@ RUN apt-get update > /dev/null && \
     mamba env update -n kinoml -f env.yml && \
     mamba init bash
 
-COPY run.py /
+COPY entrypoint.sh /
 
 SHELL ["conda", "run", "-n", "kinoml", "/bin/bash", "-c"]
 
-ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "kinoml", "python", "run.py"]
+RUN pip install https://github.com/openkinome/kinoml/archive/master.tar.gz
+
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "kinoml", "./entrypoint.sh"]
