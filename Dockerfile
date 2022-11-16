@@ -8,6 +8,8 @@ ENV CONDA_DIR=/opt/conda
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH=${CONDA_DIR}/bin:${PATH}
 
+COPY env.yml /
+
 RUN apt-get update > /dev/null && \
     apt-get install --no-install-recommends --yes \
         wget bzip2 ca-certificates \
@@ -25,17 +27,13 @@ RUN apt-get update > /dev/null && \
     conda clean --force-pkgs-dirs --all --yes  && \
     echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> /etc/skel/.bashrc && \
     echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> ~/.bashrc && \
-    conda install mamba -n base -c conda-forge
-
-COPY env.yml entrypoint.sh /
-
-RUN python --version
-
-RUN mamba create -n kinoml --no-default-packages && \
+    conda install mamba -n base -c conda-forge && \
+    mamba create -n kinoml --no-default-packages && \
     mamba env update -n kinoml -f env.yml && \
-    mamba init
+    mamba init bash
 
+COPY run.py /
 
-ENTRYPOINT ["tini", "--"]
+SHELL ["conda", "run", "-n", "kinoml", "/bin/bash", "-c"]
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "kinoml", "python", "run.py"]
