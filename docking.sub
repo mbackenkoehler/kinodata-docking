@@ -1,4 +1,5 @@
 universe = docker
+executable = docking.sh
 docker_image = michaback/docking:v0
 output = docking.$(ClusterId).$(ProcId).out
 error = docking.$(ClusterId).$(ProcId).err
