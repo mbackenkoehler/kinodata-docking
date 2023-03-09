@@ -55,7 +55,7 @@ def get_most_similar(args):
     return ligand_id, pdb_id, chain
 
 if __name__ == '__main__':
-    kinodata = pd.read_csv("activities-chembl31.csv", index_col=0)
+    kinodata = pd.read_csv("activity.csv", index_col=0)
     done = pd.read_csv(MOST_SIMILAR)['activities.activity_id'].values
     kinodata = kinodata[~kinodata['activities.activity_id'].isin(done)]
 
